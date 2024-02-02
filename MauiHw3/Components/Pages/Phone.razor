@@ -1,0 +1,28 @@
+@page "/phone"
+
+<h1>You can dial any phone number here:</h1>
+<input type="text" @bind-value=@num />
+<button class="button" @onclick="() => Dial(num)">Dial number</button>
+
+@if(errorMessage is not null)
+{
+    <p>@errorMessage</p>
+}
+
+@code {
+    string num = "";
+    string? errorMessage = null;
+
+    public void Dial(string n)
+    {
+        if (PhoneDialer.Default.IsSupported)
+        {
+            PhoneDialer.Default.Open(n);
+            errorMessage = null;
+        }
+        else
+        {
+            errorMessage = "phone dialer is not supported here";
+        }
+    }
+}

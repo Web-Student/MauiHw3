@@ -1,0 +1,29 @@
+@page "/DeviceDisplayPage"
+@using Microsoft.Maui.Devices
+
+<h1>Device Display</h1>
+<h4>The Device Display feature gives you information about your device</h4>
+
+<button @onclick=ReadDeviceDisplay>Display Screen Details</button>
+<p>@DeviceDisplay.Current.MainDisplayInfo.Width</p>
+<p>@DeviceDisplay.Current.MainDisplayInfo.Orientation</p>
+<p>@DisplayDetailsLabel.Text</p>
+
+@code {
+    public static Microsoft.Maui.Devices.IDeviceDisplay Current { get; } //this line is really important
+    public Label DisplayDetailsLabel = new();
+
+
+    private void ReadDeviceDisplay()
+    {
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+        sb.AppendLine($"Pixel width: {DeviceDisplay.Current.MainDisplayInfo.Width} / Pixel Height: {DeviceDisplay.Current.MainDisplayInfo.Height}");
+        sb.AppendLine($"Density: {DeviceDisplay.Current.MainDisplayInfo.Density}");
+        sb.AppendLine($"Orientation: {DeviceDisplay.Current.MainDisplayInfo.Orientation}");
+        sb.AppendLine($"Rotation: {DeviceDisplay.Current.MainDisplayInfo.Rotation}");
+        sb.AppendLine($"Refresh Rate: {DeviceDisplay.Current.MainDisplayInfo.RefreshRate}");
+
+        DisplayDetailsLabel.Text = sb.ToString();
+    }
+}
