@@ -1,0 +1,24 @@
+﻿@page "/SMSsender"
+
+<h3>SMSComponent</h3>
+
+<button class="button" @onclick="SendText">SendText</button>
+
+@code {
+    public async Task SendText()
+    {
+        if (Sms.Default.IsComposeSupported)
+        {
+            string[] recipients = new[] { "000-000-0000" };
+            string text = "Hello, I'm interested in buying your vase.";
+
+            var message = new SmsMessage(text, recipients);
+
+            await Sms.Default.ComposeAsync(message);
+        }
+        else
+        {
+            throw new Exception("Error, sms.defualt.iscompose is not supported");
+        }
+    }
+}
