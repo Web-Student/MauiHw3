@@ -2,26 +2,22 @@
 @using Communication = Microsoft.Maui.ApplicationModel.Communication;
 
 <h1>You can choose a specific contact, or get a list of all your contacts</h1>
-@if (contacts is not null)
+@if (ctacts is not null)
 {
-    foreach (var c in contacts)
+    foreach (var c in ctacts)
     {
-        
+        <p>@c.DisplayName</p>
     }
 }
-@* <button class="button" @onclick="Changebool">Get all contacts</button>
-
-@if(callFunction)
-{
-    @GetContactNamesTry2();
-} *@
 
 @code {
     // public bool callFunction = false;
-    public List<string> contacts;
+    public IEnumerable<Contact> ctacts;
     protected override async Task OnInitializedAsync()
     {
-        contacts = GetContactNamesTry2();
+        //ntacts = GetContactNamesTry2();
+        ctacts = await getContacts();
+        var c = await getContacts();
     }
 
     public async IAsyncEnumerable<string> GetContactNamesTry2()
@@ -36,8 +32,9 @@
             yield return contact.DisplayName;
     }
 
-    // public void Changebool()
-    // {
-    //     callFunction = true;
-    // }
+    public async Task<IEnumerable<Contact>> getContacts()
+    {
+        var contacts = await Communication.Contacts.Default.GetAllAsync();
+        return contacts;
+    }
 }
