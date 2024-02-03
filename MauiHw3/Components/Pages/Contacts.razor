@@ -1,0 +1,43 @@
+@page "/contacts"
+@using Communication = Microsoft.Maui.ApplicationModel.Communication;
+
+<h1>You can choose a specific contact, or get a list of all your contacts</h1>
+@if (contacts is not null)
+{
+    foreach (var c in contacts)
+    {
+        
+    }
+}
+@* <button class="button" @onclick="Changebool">Get all contacts</button>
+
+@if(callFunction)
+{
+    @GetContactNamesTry2();
+} *@
+
+@code {
+    // public bool callFunction = false;
+    public List<string> contacts;
+    protected override async Task OnInitializedAsync()
+    {
+        contacts = GetContactNamesTry2();
+    }
+
+    public async IAsyncEnumerable<string> GetContactNamesTry2()
+    {
+        var contacts = await Communication.Contacts.Default.GetAllAsync();
+
+        // No contacts
+        if (contacts == null)
+            yield break;
+
+        foreach (var contact in contacts)
+            yield return contact.DisplayName;
+    }
+
+    // public void Changebool()
+    // {
+    //     callFunction = true;
+    // }
+}
