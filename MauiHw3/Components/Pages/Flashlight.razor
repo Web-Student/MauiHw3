@@ -1,0 +1,34 @@
+@page "/flashlight"
+@using Microsoft.Maui.Devices
+
+<h1>Flashlight page</h1>
+@* <button class="button" @onclick="() => FlashlightSwitch_Toggled(FlashlightSwitch, FlashlightSwitch.Toggled)">Toggle Flashlight Status</button> *@
+
+<button @onclick="turnOn">Turn on flashlight</button>
+<button @onclick="turnOff">Turn off flashlight</button>
+@code {
+    public async void turnOn()
+    {
+        Flashlight flash;
+        try
+        {
+            await Microsoft.Maui.Devices.Flashlight.TurnOnAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+    public async void turnOff()
+    {
+        Flashlight flash;
+        try
+        {
+            await Microsoft.Maui.Devices.Flashlight.TurnOffAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+}

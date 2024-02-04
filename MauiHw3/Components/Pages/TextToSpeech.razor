@@ -1,0 +1,21 @@
+@page "/Text2Speech"
+@using MediaNamespace = Microsoft.Maui.Media;
+
+
+<h1>This page demonstrates text to speech features</h1>
+<button @onclick="SpeakMultiple">Speak</button>
+
+@code {
+    bool isBusy = false;
+
+    public void SpeakMultiple()
+    {
+        isBusy = true;
+
+        Task.WhenAll(
+            Microsoft.Maui.Media.TextToSpeech.Default.SpeakAsync("Hello World 1"),
+            MediaNamespace.TextToSpeech.Default.SpeakAsync("Hello World 2"),
+            MediaNamespace.TextToSpeech.Default.SpeakAsync("Hello World 3"))
+            .ContinueWith((t) => { isBusy = false; }, TaskScheduler.FromCurrentSynchronizationContext());
+    }
+}

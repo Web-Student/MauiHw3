@@ -1,0 +1,35 @@
+@page "/deviceType"
+@using DevNamespace = Microsoft.Maui.Devices;
+
+<h1>This displays device info</h1>
+<button @onclick="ReadDeviceInfo">Get Device Info</button>
+@if(DisplayDeviceLabel is not null)
+{
+    <p>@DisplayDeviceLabel.Text</p>
+}
+
+@code {
+    Label DisplayDeviceLabel = new();
+    private void ReadDeviceInfo()
+    {
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+        sb.AppendLine($"Model: {Microsoft.Maui.Devices.DeviceInfo.Current.Model}");
+        sb.AppendLine($"Manufacturer: {DevNamespace.DeviceInfo.Current.Manufacturer}");
+        sb.AppendLine($"Name: {DevNamespace.DeviceInfo.Current.Name}");
+        sb.AppendLine($"OS Version: {DevNamespace.DeviceInfo.Current.VersionString}");
+        sb.AppendLine($"Idiom: {DevNamespace.DeviceInfo.Current.Idiom}");
+        sb.AppendLine($"Platform: {DevNamespace.DeviceInfo.Current.Platform}");
+
+        bool isVirtual = DeviceInfo.Current.DeviceType switch
+        {
+            Microsoft.Maui.Devices.DeviceType.Physical => false,
+            Microsoft.Maui.Devices.DeviceType.Virtual => true,
+            _ => false
+        };
+
+        sb.AppendLine($"Virtual device? {isVirtual}");
+
+        DisplayDeviceLabel.Text = sb.ToString();
+    }
+}
